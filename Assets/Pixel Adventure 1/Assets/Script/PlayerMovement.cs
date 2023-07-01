@@ -16,6 +16,14 @@ public class PlayerMovement : MonoBehaviour
     private Animator ani;
     private SpriteRenderer sprite;
 
+    private enum MovementState
+    {
+        idle,
+        running,
+        falling,
+        jumping
+    }
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -38,17 +46,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void AnimationUpdateState()
     {
+        MovementState state;
+
         if (dirX > 0f)
         {
-            ani.SetBool("Running", true);
+            state = MovementState.running;
             sprite.flipX = false;
         }
         else if (dirX < 0f)
         {
-            ani.SetBool("Running", true);
+            state = MovementState.running;
             sprite.flipX = true;
         }
         else
-            ani.SetBool("Running", false);
+            state = MovementState.idle;
+
+        if (rb.velocity.y > .1f)
+        {
+            state = MovementState.jumping;
+        }
+        else if (rb.velocity.y < -.1f)
+            state = MovementState.falling;
+
+        ani.SetInteger("state", (int)state);
     }
 }
