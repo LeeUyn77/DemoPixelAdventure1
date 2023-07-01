@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    float speed =7f;
     private Rigidbody2D rb;
 
     // Start is called before the first frame update
@@ -15,8 +16,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        float dirx= Input.GetAxisRaw("Horizontal");
-        rb.velocity=new Vector2(dirx* 7f,rb.velocity.y);
+        rb.velocity=new Vector2(Input.GetAxisRaw("Horizontal")*speed, rb.velocity.y);
 
         if(Input.GetButtonDown("Jump"))
             rb.velocity = new Vector2(rb.velocity.x,14f);
